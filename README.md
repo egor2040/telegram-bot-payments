@@ -12,20 +12,46 @@ This is a simple Telegram bot that demonstrates how to handle payments using Tel
 
 1. Clone the repository:
 
-```bash
-git clone https://github.com/xep1x/telegram-bot-payments.git
-cd telegram-bot-payments```
+    ```bash
+    git clone https://github.com/xep1x/telegram-bot-payments.git
+    cd telegram-bot-payments
+    ```
 
 2. Install the required packages:
 
-```bash
-pip install -r requirements.txt```
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-3. Create a bot on Telegram and get your bot token from @BotFather.
+3. Create a bot on Telegram and get your bot token from [BotFather](https://t.me/BotFather).
 
-4. Replace 'YOUR_BOT_TOKEN' in pay_bot.py with your actual bot token.
+4. Replace `'YOUR_BOT_TOKEN'` in `pay_bot.py` with your actual bot token.
 
 5. Run the bot:
 
-```bash
-python pay_bot.py```
+    ```bash
+    python pay_bot.py
+    ```
+
+## Usage
+
+1. Start a chat with your bot on Telegram.
+2. Use the command `/start` to initialize the bot.
+3. Use the command `/buy` to initiate a payment process.
+
+## Files
+
+- `pay_bot.py`: Main bot script
+- `requirements.txt`: List of required Python packages
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request.
+
+## Contact
+
+For any questions, feel free to reach out via GitHub issues.
