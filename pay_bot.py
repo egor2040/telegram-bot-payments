@@ -4,8 +4,8 @@ from telegram import Update, LabeledPrice
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, PreCheckoutQueryHandler, CallbackContext
 
 # Получаем токен бота из переменной окружения
+import os
 TOKEN = os.getenv("BOT_TOKEN")
-
 # Настройка логирования
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
