@@ -1,14 +1,23 @@
 import logging
+import os
 from telegram import Update, LabeledPrice
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, PreCheckoutQueryHandler, CallbackContext
 
+# Получаем токен бота из переменной окружения
 TOKEN = os.getenv("BOT_TOKEN")
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+
+# Настройка логирования
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO
+)
 logger = logging.getLogger(__name__)
 
+# Команда /start
 async def start(update: Update, context: CallbackContext):
     await update.message.reply_text("Привет! Выберите команду /buy для покупки.")
 
+# Команда /buy
 async def buy(update: Update, context: CallbackContext):
     chat_id = update.message.chat_id
     title = "Название товара"
@@ -16,40 +25,39 @@ async def buy(update: Update, context: CallbackContext):
     payload = "Custom-Payload"
     currency = "XTR"  # Используем Telegram Stars (XTR)
     price = 5.00  # Цена в XTR
-    prices = [LabeledPrice("Название товара", int(price * 100))]
+    prices = [LabeledPrice("Название товара", int(price * 100))]  # XTR принимает цену в копейках
 
     await context.bot.send_invoice(
         chat_id=chat_id,
         title=title,
         description=description,
         payload=payload,
-        provider_token="",  # Пустой токен для цифровых товаров
+        provider_token=os.getenv("PROVIDER_TOKEN"),
         currency=currency,
         prices=prices,
-        start_parameter="start_parameter"
+        start_parameter="test-payment"
     )
 
+# Обработка предварительной проверки
 async def precheckout_callback(update: Update, context: CallbackContext):
     query = update.pre_checkout_query
-    if query.invoice_payload != 'Custom-Payload':
-        await query.answer(ok=False, error_message="Что-то пошло не так...")
-    else:
-        await query.answer(ok=True)
+    await query.answer(ok=True)
 
+# Обработка успешной оплаты
 async def successful_payment_callback(update: Update, context: CallbackContext):
-    payment = update.message.successful_payment
-    telegram_payment_charge_id = payment.telegram_payment_charge_id
-    await update.message.reply_text(f"Платеж успешно выполнен! Ваш ID: {telegram_payment_charge_id}")
+    await update.message.reply_text("Спасибо за оплату! Доступ открыт.")
 
+# Основной запуск
 def main():
-    application = Application.builder().token(TOKEN).build()
+    app = Application.builder().token(TOKEN).build()
 
-    application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("buy", buy))
-    application.add_handler(PreCheckoutQueryHandler(precheckout_callback))
-    application.add_handler(MessageHandler(filters.SUCCESSFUL_PAYMENT, successful_payment_callback))
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("buy", buy))
+    app.add_handler(PreCheckoutQueryHandler(precheckout_callback))
+    app.add_handler(MessageHandler(filters.SUCCESSFUL_PAYMENT, successful_payment_callback))
 
-    application.run_polling()
+    app.run_polling()
 
 if __name__ == '__main__':
     main()
+
