@@ -6,6 +6,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, P
 # Получаем токен бота из переменной окружения
 import os
 TOKEN = os.getenv("BOT_TOKEN")
+print(f"Loaded TOKEN: {TOKEN}")  # УДАЛИ после проверки
 # Настройка логирования
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
