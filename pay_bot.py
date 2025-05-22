@@ -3,8 +3,7 @@ from telegram import Update, LabeledPrice
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, PreCheckoutQueryHandler, CallbackContext
 
 # Вставьте сюда ваш токен
-TOKEN = 'TOKEN'
-
+TOKEN = '7007004147:AAG30MpOgpa7ZQCl9SYJjS9WjqwRMslTnwA'
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
